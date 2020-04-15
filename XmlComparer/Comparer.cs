@@ -36,9 +36,13 @@ namespace XmlComparer
             string result = "";
             for (int i = 0; i < xroot1.xnode.ChildNodes.Count; i++)
             {
-
                 XmlNode xnode1 = xroot1.xnode.ChildNodes[i];
-                XmlNode xnode2 = xroot2.xnode.ChildNodes[i];
+                string xnode1name = xnode1.Name;
+                XmlNode xnode2 = xroot2.xnode[xnode1name];
+                if(xnode2 == null)
+                {
+                    result += "\nУдален элемент " + xnode1name;
+                }
 
                 string curfieldName = xnode1.Name;
 
@@ -62,7 +66,16 @@ namespace XmlComparer
                     {
                         for (int j = 0; j < commonElems.Count; j++)
                         {
-                            listResult += CompareNodes(elems1[j], elems2[j], curprefix);
+                            MyXmlNode listElem1 = elems1[j];
+                            string listElem1Id = listElem1.Id;
+                            List<MyXmlNode> nodes2 = elems2.Where(n => n.Id == listElem1Id).ToList();
+                            if(nodes2.Count == 0)
+                            {
+                                listResult += "\n" + "Удален элемент " + listElem1.xnode.Name + " id " + listElem1Id;
+                                continue;
+                            }
+                            MyXmlNode listElem2 = nodes2.First();
+                            listResult += CompareNodes(listElem1, listElem2, curprefix);
                         }
                     }
 
