@@ -41,7 +41,7 @@ namespace XmlComparer
                 XmlNode xnode2 = xroot2.xnode[xnode1name];
                 if(xnode2 == null)
                 {
-                    result += "\nУдален элемент " + xnode1name;
+                    result += "\nDeleted element " + xnode1name;
                 }
 
                 string curfieldName = xnode1.Name;
@@ -71,7 +71,7 @@ namespace XmlComparer
                             List<MyXmlNode> nodes2 = elems2.Where(n => n.Id == listElem1Id).ToList();
                             if(nodes2.Count == 0)
                             {
-                                listResult += "\n" + "Удален элемент " + listElem1.xnode.Name + " id " + listElem1Id;
+                                listResult += "\n" + "Deleted element " + listElem1.xnode.Name + " id " + listElem1Id;
                                 continue;
                             }
                             MyXmlNode listElem2 = nodes2.First();
@@ -81,22 +81,22 @@ namespace XmlComparer
 
                     if ((count1 != count2) || listResult != "" || removedElems.Count > 0 || newElems.Count > 0)
                     {
-                        result += "\n" + curprefix + curfieldName + " изменен!" + "\n";
+                        result += "\n" + curprefix + curfieldName + " is changed!!" + "\n";
 
                         string listtabprefix = curprefix + "\t";
                         if (count1 != count2)
                         {
-                            result += listtabprefix + "количество ";
+                            result += listtabprefix + "count is ";
                             if (count1 > count2)
-                                result += " уменьшилось с " + count1 + " до " + count2 + "\n";
+                                result += " increased from " + count1 + " to " + count2 + "\n";
                             else
-                                result += " увеличилось с " + count1 + " до " + count2 + "\n";
+                                result += " decreased from " + count1 + " to " + count2 + "\n";
                         }
 
                         if (removedElems.Count > 0 || newElems.Count > 0)
                         {
-                            result += VisualizeList("удаленные", removedElems, listtabprefix);
-                            result += VisualizeList("новые", newElems, "  " + listtabprefix);
+                            result += VisualizeList("deleted", removedElems, listtabprefix);
+                            result += VisualizeList("new", newElems, "  " + listtabprefix);
                         }
 
                         if (listResult != "")
@@ -110,7 +110,7 @@ namespace XmlComparer
                     string val1 = xnode1.InnerText;
                     string val2 = xnode2.InnerText;
                     if (val1 != val2)
-                        result += "\n\t" + tabprefix + curfieldName + " изменено: " + val1 + " -> " + val2;
+                        result += "\n\t" + tabprefix + curfieldName + " is changed: " + val1 + " -> " + val2;
                 }
             }
 
